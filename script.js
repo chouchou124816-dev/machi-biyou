@@ -1,5 +1,5 @@
 // Supabase の URL と anon key を直書き
-const supabaseUrl = "https:///kgijjigjnxppivqlpvqv.supabase.co";
+const supabaseUrl = "https://kgijijgjnxppiqvlpqvq.supabase.co";
 const supabaseKey = "sb_publishable_ioB0JGLtDtJrH-WyAYluaw_654cHGwP";
 
 // Supabase クライアントを作成
