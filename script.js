@@ -21,10 +21,8 @@ async function loadShops() {
   }
 
   console.log("取得したデータ:", data);
-}
 
-loadShops();
-// ▼▼ ここから追加 ▼▼
+  // ▼▼ ここから追加（必ず loadShops の中） ▼▼
   const list = document.getElementById("shop-list");
   list.innerHTML = ""; // 初期化
 
@@ -40,3 +38,6 @@ loadShops();
     list.appendChild(div);
   });
   // ▲▲ ここまで追加 ▲▲
+}
+
+loadShops();
