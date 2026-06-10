@@ -24,3 +24,33 @@ async function loadShops() {
 }
 
 loadShops();
+async function loadShops() {
+  const { data, error } = await supabase
+    .from("shops")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("データ取得エラー", error);
+    return;
+  }
+
+  console.log("取得したデータ", data);
+
+  // ▼▼ ここから追加 ▼▼
+  const list = document.getElementById("shop-list");
+  list.innerHTML = ""; // 初期化
+
+  data.forEach(shop => {
+    const div = document.createElement("div");
+    div.className = "shop-card";
+    div.innerHTML = `
+      <h2>${shop.name}</h2>
+      <p>${shop.address}</p>
+      <img src="${shop.image_url}" alt="${shop.name}" width="200">
+      <p>${shop.description}</p>
+    `;
+    list.appendChild(div);
+  });
+  // ▲▲ ここまで追加 ▲▲
+}
