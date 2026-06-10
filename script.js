@@ -24,20 +24,7 @@ async function loadShops() {
 }
 
 loadShops();
-async function loadShops() {
-  const { data, error } = await supabase
-    .from("shops")
-    .select("*")
-    .order("id", { ascending: true });
-
-  if (error) {
-    console.error("データ取得エラー", error);
-    return;
-  }
-
-  console.log("取得したデータ", data);
-
-  // ▼▼ ここから追加 ▼▼
+// ▼▼ ここから追加 ▼▼
   const list = document.getElementById("shop-list");
   list.innerHTML = ""; // 初期化
 
@@ -53,4 +40,3 @@ async function loadShops() {
     list.appendChild(div);
   });
   // ▲▲ ここまで追加 ▲▲
-}
