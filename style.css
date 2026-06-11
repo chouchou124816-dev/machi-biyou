@@ -47,3 +47,36 @@ body {
   border-radius: 8px;
   margin-bottom: 12px;
 }
+.shop-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid #f2f2f2;
+}
+.shop-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 0.5px;
+}
+.shop-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(255, 182, 193, 0.25);
+  border-color: #ffb6c1;
+}
+@media (max-width: 480px) {
+  .shop-card {
+    padding: 16px;
+  }
+  .shop-card img {
+    height: 150px;
+  }
+}
