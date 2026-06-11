@@ -5,6 +5,12 @@
   <title>まちの美容室リスト</title>
   <link rel="stylesheet" href="style.css">
 </head>
+  <nav>
+  <a href="index.html">ホーム</a>
+  <a href="favorites.html">お気に入り</a>
+  <button onclick="location.href='login.html'">ログイン</button>
+</nav>
+
 <body>
   <h1>まちの美容室リスト</h1>
   <div id="shop-list"></div>
@@ -13,3 +19,5 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
+  <div class="favorite" data-id="${shop.id}">♡</div>
+
