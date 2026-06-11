@@ -30,14 +30,30 @@ async function loadShops() {
     const div = document.createElement("div");
     div.className = "shop-card";
     div.innerHTML = `
-      <h2>${shop.name}</h2>
-      <p>${shop.address}</p>
-      <img src="${shop.image_url}" alt="${shop.name}" width="200">
-      <p>${shop.description}</p>
-    `;
+  <img src="${shop.image_url}" alt="${shop.name}">
+  <h2>${shop.name}</h2>
+  <p>${shop.address}</p>
+  <p>${shop.description}</p>
+
+  <div class="btn-area">
+    ${shop.map_url ? `<a class="btn" href="${shop.map_url}" target="_blank">📍 Google Maps</a>` : ""}
+    ${shop.reserve_url ? `<a class="btn" href="${shop.reserve_url}" target="_blank">📅 予約する</a>` : ""}
+    ${shop.homepage_url ? `<a class="btn" href="${shop.homepage_url}" target="_blank">🏠 ホームページ</a>` : ""}
+  </div>
+
+  <div class="favorite" data-id="${shop.id}">♡</div>
+`;
+
     list.appendChild(div);
   });
   // ▲▲ ここまで追加 ▲▲
 }
 
 loadShops();
+
+// ハートのクリックイベント
+document.querySelectorAll(".favorite").forEach(fav => {
+  fav.addEventListener("click", () => {
+    fav.classList.toggle("active");
+  });
+});
