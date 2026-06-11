@@ -3,32 +3,55 @@ const supabaseUrl = "https://kgijijgjnxppiqvlpqvq.supabase.co";
 const supabaseKey = "sb_publishable_ioB0JGLtDtJrH-WyAYluaw_654cHGwP";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// localStorage からお気に入りIDを取得
-function loadFavorites() {
-  return JSON.parse(localStorage.getItem("favorites") || "[]");
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+  return data.user;
 }
 
 async function loadFavoriteShops() {
-  const favs = loadFavorites();
-  if (favs.length === 0) {
-    document.getElementById("favorite-list").innerHTML = "<p>お気に入りはありません。</p>";
+  const user = await getCurrentUser();
+  const container = document.getElementById("favorite-list");
+
+  if (!user) {
+    container.innerHTML = "<p>ログインするとお気に入りが表示されます。</p>";
     return;
   }
 
-  const { data, error } = await supabase
+  // ① favorites から shop_id を取得
+  const { data: favs, error: favError } = await supabase
+    .from("favorites")
+    .select("shop_id")
+    .eq("user_id", user.id);
+
+  if (favError) {
+    console.error(favError);
+    container.innerHTML = "<p>お気に入りの取得に失敗しました。</p>";
+    return;
+  }
+
+  if (!favs || favs.length === 0) {
+    container.innerHTML = "<p>お気に入りはまだありません。</p>";
+    return;
+  }
+
+  const ids = favs.map(f => f.shop_id);
+
+  // ② shops テーブルから店舗情報を取得
+  const { data: shops, error: shopError } = await supabase
     .from("shops")
     .select("*")
-    .in("id", favs);
+    .in("id", ids);
 
-  if (error) {
-    console.error(error);
+  if (shopError) {
+    console.error(shopError);
+    container.innerHTML = "<p>店舗情報の取得に失敗しました。</p>";
     return;
   }
 
-  const list = document.getElementById("favorite-list");
-  list.innerHTML = "";
+  container.innerHTML = "";
 
-  data.forEach(shop => {
+  shops.forEach(shop => {
     const div = document.createElement("div");
     div.className = "shop-card";
     div.innerHTML = `
@@ -37,7 +60,7 @@ async function loadFavoriteShops() {
       <p>${shop.address}</p>
       <p>${shop.description}</p>
     `;
-    list.appendChild(div);
+    container.appendChild(div);
   });
 }
 
