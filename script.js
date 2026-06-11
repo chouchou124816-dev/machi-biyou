@@ -51,9 +51,45 @@ async function loadShops() {
 
 loadShops();
 
-// ハートのクリックイベント
-document.querySelectorAll(".favorite").forEach(fav => {
-  fav.addEventListener("click", () => {
-    fav.classList.toggle("active");
+// --- お気に入り保存用 localStorage ---
+function loadFavorites() {
+  return JSON.parse(localStorage.getItem("favorites") || "[]");
+}
+
+function saveFavorites(favs) {
+  localStorage.setItem("favorites", JSON.stringify(favs));
+}
+
+// --- ハートの状態を反映 ---
+function applyFavoriteState() {
+  const favs = loadFavorites();
+  document.querySelectorAll(".favorite").forEach(fav => {
+    const id = fav.dataset.id;
+    if (favs.includes(id)) {
+      fav.classList.add("active");
+      fav.textContent = "❤️";
+    } else {
+      fav.textContent = "♡";
+    }
   });
+}
+
+// --- ハートクリックイベント ---
+document.addEventListener("click", e => {
+  if (!e.target.classList.contains("favorite")) return;
+
+  const id = e.target.dataset.id;
+  let favs = loadFavorites();
+
+  if (favs.includes(id)) {
+    favs = favs.filter(f => f !== id);
+  } else {
+    favs.push(id);
+  }
+
+  saveFavorites(favs);
+  applyFavoriteState();
 });
+
+// 初期反映
+applyFavoriteState();
