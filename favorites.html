@@ -5,11 +5,24 @@
   <title>お気に入り一覧</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>お気に入りの美容室</h1>
-<div id="favorite-list"></div>
+  <nav>
+    <a href="index.html">ホーム</a>
+    <a href="favorites.html">お気に入り</a>
+    <a id="loginLink" href="login.html">ログイン</a>
+  </nav>
 
-<script src="favorites.js"></script>
+  <h1>お気に入りの美容室</h1>
+
+  <div id="favorite-list"></div>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- お気に入り一覧専用スクリプト -->
+  <script type="module" src="favorites.js"></script>
+
 </body>
 </html>
