@@ -1,3 +1,5 @@
+console.log("script.js 読み込みOK");
+
 // Supabase の URL と anon key を直書き
 const supabaseUrl = "https://kgijijgjnxppiqvlpqvq.supabase.co";
 const supabaseKey = "sb_publishable_ioB0JGLtDtJrH-WyAYluaw_654cHGwP";
@@ -38,6 +40,7 @@ async function fetchUserFavorites() {
 // 3. ハートの状態を反映
 // ------------------------------
 async function applyFavoriteState() {
+  console.log("applyFavoriteState 実行"); 
   const favIds = await fetchUserFavorites();
 
   document.querySelectorAll(".favorite").forEach(fav => {
@@ -56,10 +59,14 @@ async function applyFavoriteState() {
 // 4. 店舗一覧を読み込む
 // ------------------------------
 async function loadShops() {
+   console.log("loadShops 実行開始");
+
   const { data, error } = await supabase
     .from('shops')
     .select('*')
     .order('id', { ascending: true });
+
+  console.log("取得したデータ:", data);
 
   if (error) {
     console.error("データ取得エラー:", error);
@@ -117,6 +124,7 @@ document.addEventListener("click", async e => {
   }
 
   const shopId = Number(e.target.dataset.id);
+  console.log("ハートクリック:", shopId); 
 
   // すでにお気に入りか確認
   const { data: exists } = await supabase
@@ -145,3 +153,18 @@ document.addEventListener("click", async e => {
   // 表示更新
   await applyFavoriteState();
 });
+
+async function updateLoginLink() {
+  const { data } = await supabase.auth.getUser();
+  const link = document.getElementById("loginLink");
+
+  if (data.user) {
+    link.textContent = "マイページ";
+    link.href = "mypage.html";
+  } else {
+    link.textContent = "ログイン";
+    link.href = "login.html";
+  }
+}
+
+updateLoginLink();
