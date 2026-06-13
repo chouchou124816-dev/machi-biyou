@@ -12,6 +12,7 @@ console.log("Supabase 接続完了:", supabaseUrl);
 // ------------------------------
 async function getCurrentUser() {
   const { data, error } = await supabase.auth.getUser();
+   console.log("現在のユーザー:", data);
   if (error || !data.user) return null;
   return data.user;
 }
@@ -118,6 +119,7 @@ document.addEventListener("click", async e => {
   if (!e.target.classList.contains("favorite")) return;
 
   const user = await getCurrentUser();
+  
   if (!user) {
     alert("お気に入りを使うにはログインが必要です");
     return;
