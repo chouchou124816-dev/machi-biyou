@@ -110,3 +110,19 @@ body {
     height: 150px;
   }
 }
+
+.photo-area {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.photo-area img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
