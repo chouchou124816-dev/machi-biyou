@@ -17,7 +17,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-const supabase = window.supabase.createClient(
+const sb = window.supabase.createClient(
   "https://kgijijgjnxppiqvlpqvq.supabase.co",
   "sb_publishable_ioB0JGLtDtJrH-WyAYluaw_654cHGwP"
 );
@@ -26,7 +26,7 @@ document.getElementById("loginBtn").onclick = async () => {
   const emailValue = document.getElementById("email").value;
   const passwordValue = document.getElementById("password").value;
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error } = await sb.auth.signInWithPassword({
     email: emailValue,
     password: passwordValue
   });
@@ -39,7 +39,7 @@ document.getElementById("signupBtn").onclick = async () => {
   const emailValue = document.getElementById("email").value;
   const passwordValue = document.getElementById("password").value;
 
-  const { error } = await supabase.auth.signUp({
+  const { error } = await sb.auth.signUp({
     email: emailValue,
     password: passwordValue
   });
