@@ -206,3 +206,7 @@ async function addShop() {
   }
 }
 
+// 
+document
+  .getElementById("addShopBtn")
+  .addEventListener("click", addShop);
