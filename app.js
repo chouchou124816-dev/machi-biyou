@@ -1,4 +1,4 @@
-console.log("script.js 読み込みOK");
+console.log("app.js 読み込みOK");
 
 // Supabase の URL と anon key を直書き
 const supabaseUrl = "https://kgijijgjnxppiqvlpqvq.supabase.co";
