@@ -12,7 +12,7 @@ console.log("Supabase 接続完了:", supabaseUrl);
 // ------------------------------
 async function getCurrentUser() {
   const { data, error } = await supabase.auth.getUser();
-   console.log("現在のユーザー:", data);
+  console.log("現在のユーザー:", data);
   if (error || !data.user) return null;
   return data.user;
 }
@@ -41,7 +41,7 @@ async function fetchUserFavorites() {
 // 3. ハートの状態を反映
 // ------------------------------
 async function applyFavoriteState() {
-  console.log("applyFavoriteState 実行"); 
+  console.log("applyFavoriteState 実行");
   const favIds = await fetchUserFavorites();
 
   document.querySelectorAll(".favorite").forEach(fav => {
@@ -60,7 +60,7 @@ async function applyFavoriteState() {
 // 4. 店舗一覧を読み込む
 // ------------------------------
 async function loadShops() {
-   console.log("loadShops 実行開始");
+  console.log("loadShops 実行開始");
 
   const { data, error } = await supabase
     .from('shops')
@@ -83,11 +83,10 @@ async function loadShops() {
 
     div.innerHTML = `
       <div class="photo-area">
-        ${
-          shop.photos && shop.photos.length > 0
-            ? shop.photos.map(url => `<img src="${url}" alt="${shop.name}">`).join("")
-            : `<img src="${shop.image_url}" alt="${shop.name}">`
-        }
+        ${shop.photos && shop.photos.length > 0
+        ? shop.photos.map(url => `<img src="${url}" alt="${shop.name}">`).join("")
+        : `<img src="${shop.image_url}" alt="${shop.name}">`
+      }
       </div>
 
       <h2>${shop.name}</h2>
@@ -119,14 +118,14 @@ document.addEventListener("click", async e => {
   if (!e.target.classList.contains("favorite")) return;
 
   const user = await getCurrentUser();
-  
+
   if (!user) {
     alert("お気に入りを使うにはログインが必要です");
     return;
   }
 
   const shopId = Number(e.target.dataset.id);
-  console.log("ハートクリック:", shopId); 
+  console.log("ハートクリック:", shopId);
 
   // すでにお気に入りか確認
   const { data: exists } = await supabase
@@ -170,3 +169,40 @@ async function updateLoginLink() {
 }
 
 updateLoginLink();
+
+// ------------------------------
+// 店舗を登録する（owner_id を付ける）
+// ------------------------------
+async function addShop() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    alert("ログインしてください");
+    return;
+  }
+
+  const name = document.getElementById("shop-name").value;
+  const address = document.getElementById("shop-address").value;
+  const description = document.getElementById("shop-description").value;
+
+  const { data, error } = await supabase
+    .from("shops")
+    .insert({
+      name: name,
+      address: address,
+      description: description,
+      owner_id: user.id
+    })
+    .select();
+
+  console.log("登録結果 data:", data);
+  console.log("登録結果 error:", error);
+
+  if (error) {
+    console.error(error);
+    alert("登録エラー: " + error.message);
+  } else {
+    alert("店舗を登録しました！");
+  }
+}
+
